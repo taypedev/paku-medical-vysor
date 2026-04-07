@@ -1,17 +1,17 @@
 import OpenSeadragon from "openseadragon";
 import { useEffect } from "react";
 
-const MedicalVisor = () => {
-  // Referencia al contenedor del visor
-  // const viewerRef = useRef(null);
+interface MedicalVisorProps {
+  dziUrl: string;
+}
 
+const MedicalVisor = ({ dziUrl }: MedicalVisorProps) => {
   useEffect(() => {
-    // Inicializamos el visor cuando el componente se monta
     const viewer = OpenSeadragon({
-      id: "openseadragon-viewer", // ID del elemento HTML
+      id: "openseadragon-viewer",
       prefixUrl:
-        "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/", // Iconos del visor
-      tileSources: "http://localhost:8080/CMU-1.dzi",
+        "https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.0/images/",
+      tileSources: dziUrl,
       showNavigator: true, // Mini mapa en la esquina
       navigatorPosition: "BOTTOM_RIGHT",
       animationTime: 0.5,
@@ -22,25 +22,20 @@ const MedicalVisor = () => {
     });
 
     return () => {
-      // Limpiamos el visor al desmontar para evitar fugas de memoria
       viewer.destroy();
     };
-  }, []);
+  }, [dziUrl]);
 
   return (
-    <div style={{ width: "100%", maxWidth: "1200px", margin: "0 auto" }}>
-      <h2>VisuMed Demo - Visor de Alta Resolución</h2>
-      <div
-        id="openseadragon-viewer"
-        style={{
-          width: "100%",
-          height: "500px",
-          backgroundColor: "#000",
-          border: "2px solid #333",
-        }}
-      />
-      <p>Prueba el zoom con la rueda del ratón o los controles.</p>
-    </div>
+    <div
+      id="openseadragon-viewer"
+      style={{
+        width: "100%",
+        height: "500px",
+        backgroundColor: "#000",
+        border: "2px solid #333",
+      }}
+    />
   );
 };
 
